@@ -3,6 +3,7 @@ name: Update Next.js Activity
 on:
   schedule:
     - cron: "0 */3 * * *" # تشغيل كل 3 ساعات
+  workflow_dispatch: # لتفعيل التشغيل اليدوي
 
 jobs:
   update-activity:
@@ -15,17 +16,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # أو أي إصدار Node.js مدعوم
+          node-version: '18'
 
       - name: Install Dependencies
         run: npm install
 
       - name: Update Activity File
         run: |
-          echo "// Auto-updated file" > pages/activity.js
-          echo "export default function ActivityPage() {" >> pages/activity.js
-          echo "  return (<div><h1>GitHub Activity</h1><p>Last updated at: $(date)</p></div>);" >> pages/activity.js
-          echo "}" >> pages/activity.js
+          echo "// Auto-updated file" > src/pages/activity.js
+          echo "export default function ActivityPage() {" >> src/pages/activity.js
+          echo "  return (<div><h1>GitHub Activity</h1><p>Last updated at: $(date)</p></div>);" >> src/pages/activity.js
+          echo "}" >> src/pages/activity.js
 
       - name: Commit and Push Changes
         run: |
