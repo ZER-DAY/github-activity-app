@@ -1,0 +1,36 @@
+name: Update Next.js Activity
+
+on:
+  schedule:
+    - cron: "0 */3 * * *" # تشغيل كل 3 ساعات
+
+jobs:
+  update-activity:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # أو أي إصدار Node.js مدعوم
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Update Activity File
+        run: |
+          echo "// Auto-updated file" > pages/activity.js
+          echo "export default function ActivityPage() {" >> pages/activity.js
+          echo "  return (<div><h1>GitHub Activity</h1><p>Last updated at: $(date)</p></div>);" >> pages/activity.js
+          echo "}" >> pages/activity.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "zer-day"
+          git config --global user.email "bahaa.ali.m.alhabil@gmail.com"
+          git add .
+          git commit -m "Auto-update Next.js activity file"
+          git push
